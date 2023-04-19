@@ -2,7 +2,8 @@
 --changeset matte:1.0.0
 CREATE TABLE employee (
     id INTEGER NOT NULL PRIMARY KEY,
-    salary INTEGER NOT NULL
+    salary INTEGER NOT NULL,
+    department VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE person (

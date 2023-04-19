@@ -51,21 +51,22 @@ public class EmployeeManagementTool {
                 Person person = new Person(id, name, surname, dateOfBirth);
                 persons.add(person);
             }
-            sql = "SELECT id, salary FROM employee";
+            sql = "SELECT id, salary, department FROM employee";
             rs = stmt.executeQuery(sql);
             List<Employee> employees = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int salary = rs.getInt("salary");
-                Employee employee = new Employee(id, salary);
-                employees.add(employee);
+                String department = rs.getString("department");
+                Employee employee = new Employee(id, salary, department);
+                employees.add(employee);                
             }
             //print employee names and salaries
             System.out.println("Printing employee names and salaries...");
             for (Person person : persons) {
                 for (Employee employee : employees) {
                     if (person.id == employee.id) {
-                        System.out.println(person.name + " " + person.surname + ": " + employee.salary);
+                        System.out.println(person.name + " " + person.surname + " " + employee.salary + " " + employee.department);
                     }
                 }
             }
@@ -127,18 +128,21 @@ public class EmployeeManagementTool {
     static class Employee {
         int id;
         int salary;
+        String department;
 
-        public Employee(int id, int salary) {
+        public Employee(int id, int salary, String department) {
             this.id = id;
             this.salary = salary;
+            this.department = department;
         }
 
         @Override
         public String toString() {
             return "Employee{" +
-                     "id=" + id +
-                     ", salary=" + salary +
-                     '}';
+                   "id=" + id +
+                   ", salary=" + salary +
+                   ", department='" + department + '\'' +
+                   '}';
         }
     }
 }
