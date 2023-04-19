@@ -39,24 +39,37 @@ public class EmployeeManagementTool {
                 return;                
             }
 
-            //clear table
-            
             System.out.println("Querying table...");
-            sql = "SELECT id, name, age, salary FROM employee";
+            sql = "SELECT id, name, surname, date_of_birth FROM person";
+            rs = stmt.executeQuery(sql);
+            List<Person> persons = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                String dateOfBirth = rs.getString("date_of_birth");
+                Person person = new Person(id, name, surname, dateOfBirth);
+                persons.add(person);
+            }
+            sql = "SELECT id, salary FROM employee";
             rs = stmt.executeQuery(sql);
             List<Employee> employees = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String name = rs.getString("name");
-                int age = rs.getInt("age");
                 int salary = rs.getInt("salary");
-                Employee employee = new Employee(id, name, age, salary);
+                Employee employee = new Employee(id, salary);
                 employees.add(employee);
             }
-            System.out.println("Employees:");
-            for (Employee employee : employees) {
-                System.out.println(employee);
+            //print employee names and salaries
+            System.out.println("Printing employee names and salaries...");
+            for (Person person : persons) {
+                for (Employee employee : employees) {
+                    if (person.id == employee.id) {
+                        System.out.println(person.name + " " + person.surname + ": " + employee.salary);
+                    }
+                }
             }
+
 
             // Clean up
             rs.close();
@@ -87,25 +100,45 @@ public class EmployeeManagementTool {
         }
     }
 
-    static class Employee {
+    static class Person {
         int id;
         String name;
-        int age;
-        int salary;
+        String surname;
+        String dateOfBirth;
 
-        public Employee(int id, String name, int age, int salary) {
+        public Person(int id, String name, String surname, String dateOfBirth) {
             this.id = id;
             this.name = name;
-            this.age = age;
+            this.surname = surname;
+            this.dateOfBirth = dateOfBirth;
+        }
+
+        @Override
+        public String toString() {
+            return "Person{" +
+                   "id=" + id +
+                   ", name='" + name + '\'' +
+                   ", surname='" + surname + '\'' +
+                   ", dateOfBirth='" + dateOfBirth + '\'' +
+                   '}';
+        }
+    }
+
+    static class Employee {
+        int id;
+        int salary;
+
+        public Employee(int id, int salary) {
+            this.id = id;
             this.salary = salary;
         }
 
         @Override
         public String toString() {
             return "Employee{" +
-                   "id=" + id +
-                   ", name='" + name + '\'' +
-                   ", age=" + age + ", salary=" + salary + '}';
+                     "id=" + id +
+                     ", salary=" + salary +
+                     '}';
         }
     }
 }
