@@ -10,7 +10,8 @@ import java.util.List;
 public class EmployeeManagementTool {
     // JDBC driver and database URL
     static final String JDBC_DRIVER = "org.firebirdsql.jdbc.FBDriver";
-    static final String DB_URL = "jdbc:firebirdsql://localhost:3050/C:/Program Files/Firebird/Firebird_4_0/employee.fdb";
+    //connects to firebird using firebird embedded driver
+    static final String DB_URL = "jdbc:firebirdsql:embedded:employee.fdb";
 
     // Database credentials
     static final String USER = "sysdba";

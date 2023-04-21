@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/java,eclipse,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,eclipse,visualstudiocode
+# Created by https://www.toptal.com/developers/gitignore/api/java,visualstudiocode,eclipse,maven
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,visualstudiocode,eclipse,maven
 
 ### Eclipse ###
 .metadata
@@ -61,7 +61,7 @@ local.properties
 
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
+.project
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
@@ -93,6 +93,25 @@ local.properties
 hs_err_pid*
 replay_pid*
 
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -112,4 +131,4 @@ replay_pid*
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/java,eclipse,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/java,visualstudiocode,eclipse,maven
