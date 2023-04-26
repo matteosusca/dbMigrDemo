@@ -1,9 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.example</groupId>
-  <artifactId>dbMigrDemo</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.example</groupId>
+	<artifactId>dbMigrDemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.liquibase</groupId>
@@ -11,11 +13,10 @@
 				<version>4.21.1</version>
 				<configuration>
 					<changeLogFile>src/main/resources/changelog.xml</changeLogFile>
-					<url>jdbc:firebirdsql://localhost:3050/C:/Program Files/Firebird/Firebird_4_0/employee.fdb</url>
+					<url>jdbc:firebirdsql:embedded:employee.fdb</url>
 					<username>sysdba</username>
 					<password>masterkey</password>
 					<driver>org.firebirdsql.jdbc.FBDriver</driver>
-					<logLevel>debug</logLevel>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -32,9 +33,9 @@
 			<version>5.0.1.java11</version>
 		</dependency>
 		<dependency>
-		    <groupId>net.java.dev.jna</groupId>
-		    <artifactId>jna</artifactId>
-		    <version>5.13.0</version>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>5.13.0</version>
 		</dependency>
 	</dependencies>
 </project>
