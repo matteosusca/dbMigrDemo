@@ -6,8 +6,6 @@ This repository contains a demo of Liquibase and Flyway, two popular database mi
 
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 
