@@ -131,4 +131,6 @@ buildNumber.properties
 .history
 .ionide
 
+fb/
+
 # End of https://www.toptal.com/developers/gitignore/api/java,visualstudiocode,eclipse,maven

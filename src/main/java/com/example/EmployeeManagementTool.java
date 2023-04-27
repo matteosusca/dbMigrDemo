@@ -1,4 +1,5 @@
 package com.example;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,74 +9,63 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.firebirdsql.gds.impl.GDSType;
-import org.firebirdsql.management.FBManager;
-
 public class EmployeeManagementTool {
-    // JDBC driver and database URL
-    static final String JDBC_DRIVER = "org.firebirdsql.jdbc.FBDriver";
-    //connects to firebird using firebird embedded driver
-    static final String DB_URL = "jdbc:firebirdsql:embedded:employee.fdb";
+    // Connects to Firebird using the Firebird embedded driver
+    private static final String DB_URL = "jdbc:firebirdsql:embedded:%s";
 
     // Database credentials
-    static final String USER = "sysdba";
-    static final String PASS = "masterkey";
+    private static final String USER = "sysdba";
+    private static final String PASS = "masterkey";
+
+    private static final String DATABASE_NAME = "employee.fdb";
 
     public static void main(String[] args) {
 
-        //check for the existence of the file employee.fdb
-        //if it does not exist, create it and populate it with data
-        if (!new File("employee.fdb").exists()) {
-            System.out.println("Database file does not exist, creating it...");
-            createDatabase();
+        // Check for the existence of the database file
+        if (!new File(DATABASE_NAME).exists()) {
+            System.out.println("Database file does not exist, exiting...");
+            return;
         }
 
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            // Register JDBC driver
-            Class.forName(JDBC_DRIVER);
-
-            // Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
-            
-            //check if table exists
+        try (Connection conn = DriverManager.getConnection(String.format(DB_URL, DATABASE_NAME), USER, PASS);
+             Statement stmt = conn.createStatement()) {
+            // Check if table exists
             String sql = "SELECT COUNT(*) FROM RDB$RELATIONS WHERE RDB$RELATION_NAME = 'EMPLOYEE'";
-            ResultSet rs = stmt.executeQuery(sql);
-            rs.next();
-
-            if (rs.getInt(1) == 0) {
-                //create table
-                System.out.println("table does not exist, exiting...");
-                return;                
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                rs.next();
+                if (rs.getInt(1) == 0) {
+                    // Table does not exist
+                    System.out.println("Table does not exist, exiting...");
+                    return;
+                }
             }
 
-            System.out.println("Querying table...");
-            sql = "SELECT id, name, surname, date_of_birth FROM person";
-            rs = stmt.executeQuery(sql);
+            // Query the database for employees and their information
             List<Person> persons = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                String dateOfBirth = rs.getString("date_of_birth");
-                Person person = new Person(id, name, surname, dateOfBirth);
-                persons.add(person);
+            sql = "SELECT id, name, surname, date_of_birth FROM person";
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    String dateOfBirth = rs.getString("date_of_birth");
+                    Person person = new Person(id, name, surname, dateOfBirth);
+                    persons.add(person);
+                }
             }
-            sql = "SELECT id, salary, department FROM employee";
-            rs = stmt.executeQuery(sql);
             List<Employee> employees = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int salary = rs.getInt("salary");
-                String department = rs.getString("department");
-                Employee employee = new Employee(id, salary, department);
-                employees.add(employee);                
+            sql = "SELECT id, salary, department FROM employee";
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    int salary = rs.getInt("salary");
+                    String department = rs.getString("department");
+                    Employee employee = new Employee(id, salary, department);
+                    employees.add(employee);
+                }
             }
-            //print employee names and salaries
+
+            // Print employee names and salaries
             System.out.println("Printing employee names and salaries...");
             for (Person person : persons) {
                 for (Employee employee : employees) {
@@ -85,48 +75,13 @@ public class EmployeeManagementTool {
                 }
             }
 
-
-            // Clean up
-            rs.close();
-            stmt.close();
-            conn.close();
         } catch (SQLException se) {
-            // Handle errors for JDBC
             se.printStackTrace();
-        } catch (Exception e) {
-            // Handle errors for Class.forName
-            e.printStackTrace();
-        } finally {
-            // Finally block used to close resources
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-                // nothing we can do
-            }
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
         }
     }
 
-    private static void createDatabase() {
-    	FBManager fbManager = new FBManager(GDSType.getType("EMBEDDED"));
-        try {
-			fbManager.start();
-	        fbManager.createDatabase("employee.fdb", "", "");
-	        fbManager.stop();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	static class Person {
+    // Class representing a person
+    static class Person {
         int id;
         String name;
         String surname;
