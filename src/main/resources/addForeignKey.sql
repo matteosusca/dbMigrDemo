@@ -1,2 +1,5 @@
---changeset matte:1.0.0-add-foreign-key
-ALTER TABLE employee ADD CONSTRAINT fk_employee_person FOREIGN KEY (id) REFERENCES person (id);
+--liquibase formatted sql
+--changeset Matteo:add-foreign-key
+ALTER TABLE employee ADD CONSTRAINT fk_employee_person
+    FOREIGN KEY (person_id)
+    REFERENCES person (id);

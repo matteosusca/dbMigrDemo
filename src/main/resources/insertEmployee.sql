@@ -1,9 +1,17 @@
 --liquibase formatted sql
---changeset matte:1.0.0-insert
-INSERT INTO person (id, name, surname, date_of_birth) VALUES (1, 'John', 'Smith', '1980-01-01');
-INSERT INTO person (id, name, surname, date_of_birth) VALUES (2, 'Mary', 'Smith', '1985-01-01');
-INSERT INTO person (id, name, surname, date_of_birth) VALUES (3, 'Peter', 'Smith', '1990-01-01');
+--changeset Matteo:populate-data-and-rollback
+INSERT INTO person (id, name, surname, date_of_birth) VALUES
+    (1, 'Mario', 'Rossi', '1990-01-01');
+INSERT INTO person (id, name, surname, date_of_birth) VALUES
+    (2, 'Giuseppe', 'Verdi', '1985-05-05');
+INSERT INTO person (id, name, surname, date_of_birth) VALUES
+    (3, 'Maria', 'Bianchi', '1995-10-10');
 
-INSERT INTO employee (id, salary, department) VALUES (1, 1000, 'IT');
-INSERT INTO employee (id, salary, department) VALUES (2, 2000, 'HR');
-INSERT INTO employee (id, salary, department) VALUES (3, 3000, 'Sales');
+INSERT INTO employee (id, salary, department, person_id) VALUES
+    (1, 30000, 'Sales', 1);
+INSERT INTO employee (id, salary, department, person_id) VALUES
+    (2, 40000, 'Marketing', 2);
+INSERT INTO employee (id, salary, department, person_id) VALUES
+    (3, 50000, 'Finance', 3);
+
+--rollback DROP TABLE employee; DROP TABLE person;

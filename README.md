@@ -60,10 +60,131 @@ mvn clean install
 
 All done! You can now run the demo.
 
-## Usage
+## Database Creation
 
 First of all you will need to create the fdb file. To do that you will need to run the `CreateDatabase.java` class. You can do that by running the following command:
 
 ```bash
 mvn exec:java -Dexec.mainClass="com.example.CreateDatabase"
 ```
+
+This will create the `test.fdb` file in the `fb` folder.
+
+## Liquibase
+
+### Update
+
+Now you have an empty database. Liquibase can help us to create the tables and the data. To do that you will need to run the following command in the root of the project:
+
+```bash
+mvn liquibase:update
+```
+
+This command is used to run the changesets that are not already executed in the database. In this case it will create the tables and the data.
+The query that will be executed are stored in the `src/main/resources/changelog.xml` file.
+
+This file contains links to other files that contains the queries. For example, the `src/main/resources/createTable.sql` file contains the query to create the table `PERSON` and the table `EMPLOYEE`.
+
+Now we have executed these changesets:
+
+```
+createTable.sql
+|
+V
+addForeignKey.sql
+|
+V
+insertEmployee.sql
+|
+V
+createAbsence.sql
+|
+V
+createAbsenceType.sql
+|
+V
+fillAbsence.sql <--- We are here
+```
+
+### Drop All
+
+If you want to drop all the tables and the data you can run the following command:
+
+```bash
+mvn liquibase:dropAll
+```
+
+### Update - Changes to Apply
+
+If you want to update a specific number of changesets you can run the following command:
+
+```bash
+mvn liquibase:update -Dliquibase.changesToApply=2
+```
+
+This will execute the first two changesets that are not already executed in the database.
+
+For example, after executing the `mvn liquibase:dropAll` command, if you run the `mvn liquibase:update -Dliquibase.changesToApply=3` command, the following changesets will be executed:
+
+```
+createTable.sql
+|
+V
+addForeignKey.sql
+|
+V
+insertEmployee.sql <--- We are here
+```
+
+### Rollback
+
+If you want to rollback a specific number of changesets you can run the following command:
+
+```bash
+mvn liquibase:rollback -Dliquibase.rollbackCount=<number>
+```
+
+These changesets have to contain a rollback query. For example, the `src/main/resources/inserEmployee.sql` file contains the queries to rollback the insert of the employee.
+
+To test it you can run the following commands:
+
+```bash
+mvn liquibase:dropAll
+mvn liquibase:update -Dliquibase.changesToApply=3
+```
+
+Now you have the `EMPLOYEE` and the `PERSON` tables with the data. 
+
+```
+createTable.sql
+|
+V
+addForeignKey.sql
+|
+V
+insertEmployee.sql <--- We are here
+```
+
+If you run the following command:
+
+```bash
+mvn liquibase:rollback -Dliquibase.rollbackCount=2
+```
+
+You will be back to `createTable.sql` changeset.
+
+```
+createTable.sql <--- We are here
+```
+
+## UpdateSQL
+
+"updateSQL is a helper goal that allows you to inspect the SQL Liquibase will run while using the Maven update goal." (https://docs.liquibase.com/tools-integrations/maven/commands/maven-updatesql.html)
+
+To run this command you can use the following command:
+
+```bash
+mvn liquibase:updateSQL
+```
+
+This command will generate a file named `migrate.sql` in the `target/liquibase` folder. This file contains all the queries that will be executed by the `mvn liquibase:update` command.

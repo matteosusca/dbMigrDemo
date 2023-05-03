@@ -12,7 +12,7 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>4.21.1</version>
 				<configuration>
-					<changeLogFile>src/main/resources/changelog.xml</changeLogFile>
+					<changeLogFile>src/main/resources/master.xml</changeLogFile>
 					<url>jdbc:firebirdsql:embedded:employee.fdb</url>
 					<username>sysdba</username>
 					<password>masterkey</password>
