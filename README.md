@@ -168,16 +168,21 @@ insertEmployee.sql <--- We are here
 If you run the following command:
 
 ```bash
-mvn liquibase:rollback -Dliquibase.rollbackCount=2
+mvn liquibase:rollback -Dliquibase.rollbackCount=1
 ```
 
 You will be back to `createTable.sql` changeset.
 
 ```
-createTable.sql <--- We are here
+createTable.sql
+|
+V
+addForeignKey.sql <--- We are here
 ```
 
-## UpdateSQL
+NOTE: You cannot rollback a SQL changeset if it doesn't contain a rollback query.
+
+### UpdateSQL
 
 "updateSQL is a helper goal that allows you to inspect the SQL Liquibase will run while using the Maven update goal." (https://docs.liquibase.com/tools-integrations/maven/commands/maven-updatesql.html)
 
@@ -188,3 +193,15 @@ mvn liquibase:updateSQL
 ```
 
 This command will generate a file named `migrate.sql` in the `target/liquibase` folder. This file contains all the queries that will be executed by the `mvn liquibase:update` command.
+
+## Flyway
+
+### Migrate
+
+Now we will see how to do the same things with Flyway. To do that you will need to run the following command in the root of the project:
+
+```bash
+mvn flyway:migrate
+```
+
+This command is used to run the migrations that are not already executed in the database. In this case it will create the tables and the data.

@@ -3,4 +3,7 @@
     <include file="createTable.sql" relativeToChangelogFile="true"/>
     <include file="addForeignKey.sql" relativeToChangelogFile="true"/>
     <include file="insertEmployee.sql" relativeToChangelogFile="true"/>
+    <include file="createAbsence.sql" relativeToChangelogFile="true"/>
+    <include file="createAbsenceType.sql" relativeToChangelogFile="true"/>
+    <include file="fillAbsence.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
