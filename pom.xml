@@ -12,9 +12,8 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>4.21.1</version>
 				<configuration>
-					<changeLogFile>src/main/resources/master.xml</changeLogFile>
-					<url>
-						jdbc:firebirdsql://localhost:3050/C:/Users/matte/Documents/tirocinio-progetti/dbMigrDemo/employee.fdb</url>
+					<changeLogFile>src/main/resources/db/liquibase/master.xml</changeLogFile>
+					<url>jdbc:firebirdsql:embedded:employee.fdb</url>
 					<username>sysdba</username>
 					<password>masterkey</password>
 					<driver>org.firebirdsql.jdbc.FBDriver</driver>
@@ -29,6 +28,8 @@
 					<user>sysdba</user>
 					<password>masterkey</password>
 					<driver>org.firebirdsql.jdbc.FBDriver</driver>
+					<!-- enable clean -->
+					<cleanDisabled>false</cleanDisabled>
 				</configuration>
 			</plugin>
 		</plugins>

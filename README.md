@@ -198,10 +198,106 @@ This command will generate a file named `migrate.sql` in the `target/liquibase` 
 
 ### Migrate
 
-Now we will see how to do the same things with Flyway. To do that you will need to run the following command in the root of the project:
+In Flyway to execute the changesets, which from now on will be called migrations, you will need to run the following command:
 
 ```bash
 mvn flyway:migrate
 ```
 
 This command is used to run the migrations that are not already executed in the database. In this case it will create the tables and the data.
+The migrations are sql files that are stored in the `src/main/resources/db/migration` folder and are named with the following pattern: `V<version>__<description>.sql`.
+
+Flyway will execute the migrations in the order of the version. For example, the `V1__createTable.sql` migration will be executed before the `V2__addForeignKey.sql` migration and `V1.8__insertData.sql` migration will be executed before the `V1.9__removeData.sql` migration.
+
+In our case the migrations will be executed in this order:
+
+```
+V1.0__Create_tables.sql
+|
+V
+V1.1__Employee_foreign_key.sql
+|
+V
+V1.2__Fill_tables.sql
+|
+V
+V2.0__Create_absence.sql
+|
+V
+V2.1__Create_absence_type.sql
+|
+V
+V2.2__Fill_absence.sql <--- We are here
+```
+
+### Clean
+
+If you want to drop all the tables and the data you can run the following command:
+
+```bash
+mvn flyway:clean
+```
+
+### Migrate - Target
+
+If you want to migrate to a specific version you can run the following command:
+
+```bash
+mvn flyway:migrate -Dflyway.target=<version>
+```
+
+This will execute all the migrations that are not already executed in the database and that have a version lower or equal to the target version.
+
+For example, after executing the `mvn flyway:clean` command, if you run the `mvn flyway:migrate -Dflyway.target=1.2` command, the following migrations will be executed:
+
+```
+V1.0__Create_tables.sql
+|
+V
+V1.1__Employee_foreign_key.sql
+|
+V
+V1.2__Fill_tables.sql <--- We are here
+```
+
+### Undo
+
+The undo functionality is not supported by Flyway Community Edition. To use this functionality you will need to use the Flyway Team or Enterprise Edition.
+
+The documentation is available here: https://documentation.red-gate.com/fd/undo-184127463.html
+
+### Validate
+
+Validate is a command that is used to check if the migrations applied to the database are coherent with the migrations stored in the project.
+
+To run this command you can use the following command:
+
+```bash
+mvn flyway:validate
+```
+
+### Info
+
+Info is a command that is used to check the status of the migrations applied to the database.
+
+To run this command you can use the following command:
+
+```bash
+mvn flyway:info
+```
+
+### Repair
+
+Repair is a command that is used to repair the schema history table.
+
+It can be used to fix the following issues:
+
+- Remove failed migrations
+- Realign the checksums, descriptions and types of the applied migrations with the ones of the available migrations
+- Mark missing migrations as deleted
+
+To run this command you can use the following command:
+
+```bash
+mvn flyway:repair
+```
