@@ -1,0 +1,28 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      - checkout
+      - run:
+          name: Testing
+          command: |
+            java --version
+            mvn -v
+            mvn -f pom_circleci.xml test
+      - run:
+          name: Packaging
+          command: |
+            mvn -Dmaven.test.skip=true -f pom.xml clean package
+            mkdir artifacts
+            ls -la target || ls -la
+            cp target/*.jar artifacts/          
+      - run:
+          name: Outdated
+          command: mvn -f pom_circleci.xml versions:display-dependency-updates
+workflows:
+  build-test-and-deploy:
+    jobs:
+      - build
