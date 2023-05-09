@@ -5,18 +5,33 @@ This repository contains a demo of Liquibase and Flyway, two popular database mi
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+  - [Maven](#maven)
+  - [Firebird embedded](#firebird-embedded)
+    - [Windows](#windows)
+    - [Linux](#linux)
 - [Usage](#usage)
+    - [Database Creation](#database-creation)
+    - [Liquibase](#liquibase)
+        - [Drop All](#drop-all)
+        - [Update](#update)
+        - [Update - Changes to Apply](#update---changes-to-apply)
+        - [Rollback](#rollback)
+        - [UpdateSQL](#updatesql)
+    - [Flyway](#flyway)
+        - [Clean](#clean)
+        - [Migrate](#migrate)
+        - [Migrate - Target](#migrate---target)
+        - [Undo](#undo)
+        - [Validate](#validate)
+        - [Info](#info)
+        - [Repair](#repair)
 
 ## Getting Started
 
 To get started, you'll need to have the following software on your local machine:
 
-- Firebird embedded
 - Maven
-
-### Firebird embedded
-
-To get all the files needed to run Firebird embedded, you follow [this guide](https://ib-aid.com/download/docs/fb4migrationguide.html#_installing_embedded). Download and install [Firebird 4](https://firebirdsql.org/en/firebird-4-0/), then copy the files and structure as described in the guide to a folder named `fb`.
+- Firebird embedded
 
 ### Maven
 To install Maven, follow [this guide](https://maven.apache.org/install.html).
@@ -28,6 +43,10 @@ Once you have these dependencies installed, you can clone this repository and na
 git clone https://github.com/matteosusca/dbMigrDemo
 cd dbMigrDemo
 ```
+
+### Firebird embedded
+
+To get all the files needed to run Firebird embedded, you follow [this guide](https://ib-aid.com/download/docs/fb4migrationguide.html#_installing_embedded). Download and install [Firebird 4](https://firebirdsql.org/en/firebird-4-0/), then copy the files and structure as described in the guide to a folder named `fb`.
 
 After that, copy the folder `fb` to the root of the project.
 
@@ -72,6 +91,14 @@ This will create the `test.fdb` file in the `fb` folder.
 
 ## Liquibase
 
+### Drop All
+
+If you want to drop all the tables and the data you can run the following command:
+
+```bash
+mvn liquibase:dropAll
+```
+
 ### Update
 
 Now you have an empty database. Liquibase can help us to create the tables and the data. To do that you will need to run the following command in the root of the project:
@@ -104,14 +131,6 @@ createAbsenceType.sql
 |
 V
 fillAbsence.sql <--- We are here
-```
-
-### Drop All
-
-If you want to drop all the tables and the data you can run the following command:
-
-```bash
-mvn liquibase:dropAll
 ```
 
 ### Update - Changes to Apply
@@ -196,6 +215,14 @@ This command will generate a file named `migrate.sql` in the `target/liquibase` 
 
 ## Flyway
 
+### Clean
+
+If you want to drop all the tables and the data you can run the following command:
+
+```bash
+mvn flyway:clean
+```
+
 ### Migrate
 
 In Flyway to execute the changesets, which from now on will be called migrations, you will need to run the following command:
@@ -228,14 +255,6 @@ V2.1__Create_absence_type.sql
 |
 V
 V2.2__Fill_absence.sql <--- We are here
-```
-
-### Clean
-
-If you want to drop all the tables and the data you can run the following command:
-
-```bash
-mvn flyway:clean
 ```
 
 ### Migrate - Target
