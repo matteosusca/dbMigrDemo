@@ -1,3 +1,5 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/matteosusca/dbMigrDemo/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/matteosusca/dbMigrDemo/tree/master)
+
 # Demo of Liquibase and Flyway
 
 This repository contains a demo of Liquibase and Flyway, two popular database migration tools. The demo includes sample projects and configurations to show how these tools can be used to manage database schema changes.
