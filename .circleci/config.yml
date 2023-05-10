@@ -19,9 +19,10 @@ jobs:
             mvn clean install > /dev/null
             mvn exec:java -Dexec.mainClass="com.example.CreateDatabase"
             mvn liquibase:update
-            mvn exec:java -Dexec.mainClass="com.example.EmployeeManagementTool"
+            mvn exec:java -Dexec.mainClass="com.example.FirebirdDatabaseExplorer"
             mvn flyway:clean
             mvn flyway:migrate
+            mvn exec:java -Dexec.mainClass="com.example.FirebirdDatabaseExplorer"
       - run:
           name: Packaging
           command: |
