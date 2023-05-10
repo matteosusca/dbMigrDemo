@@ -11,7 +11,7 @@ jobs:
           command: |
             java --version
             mvn -v
-            mvn -f pom_circleci.xml test
+            mvn -f pom.xml test
       - run:
           name: Packaging
           command: |
