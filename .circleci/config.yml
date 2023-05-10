@@ -19,6 +19,10 @@ jobs:
             mvn clean install > /dev/null
             mvn exec:java -Dexec.mainClass="com.example.CreateDatabase"
             mvn liquibase:update
+            mvn liquibase:dropAll
+            mvn liquibase:update -Dliquibase.changesToApply=2
+            mvn exec:java -Dexec.mainClass="com.example.FirebirdDatabaseExplorer"
+            mvn liquibase:rollback -Dliquibase.rollbackCount=1
             mvn exec:java -Dexec.mainClass="com.example.FirebirdDatabaseExplorer"
             mvn flyway:clean
             mvn flyway:migrate
