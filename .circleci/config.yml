@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Testing
           command: |
-            apt-get update && apt-get install unzip openjdk-11-jdk maven -y
+            apt-get update && apt-get install unzip openjdk-11-jdk maven git -y
             git clone https://github.com/matteosusca/dbMigrDemo
             cd dbMigrDemo
             unzip fb.zip
