@@ -9,9 +9,13 @@ jobs:
       - run:
           name: Testing
           command: |
+            apt -y install unzip
+            unzip fb.zip
+            pwd
             java --version
             mvn -v
             mvn -f pom.xml test
+            mvn clean install
       - run:
           name: Packaging
           command: |
