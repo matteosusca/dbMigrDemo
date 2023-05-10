@@ -10,9 +10,10 @@ jobs:
       - run:
           name: Testing
           command: |
-            apt-get update && apt-get install unzip -y
+            apt-get update && apt-get install unzip openjdk-11-jdk -y
             unzip fb.zip
-            pwd
+            ls /home
+            whoami
             java --version
             mvn -v
             mvn -f pom.xml test
