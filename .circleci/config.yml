@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Testing
           command: |
-            apt -y install unzip
+            sudo apt -y install unzip
             unzip fb.zip
             pwd
             java --version
