@@ -26,7 +26,7 @@ jobs:
             mvn flyway:clean
             mvn flyway:migrate -Dflyway.target=1.2
             mvn exec:java -Dexec.mainClass="com.example.FirebirdDatabaseExplorer"
-            mvn flyway:vallidate
+            mvn flyway:validate
             mvn flyway:info
             mvn flyway:repair
       - run:
