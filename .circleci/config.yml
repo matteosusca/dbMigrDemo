@@ -10,17 +10,18 @@ jobs:
       - run:
           name: Testing
           command: |
-            apt-get update && apt-get install unzip openjdk-11-jdk maven git -y
+            apt-get update && apt-get install unzip openjdk-11-jdk maven git -y > /dev/null
             git clone https://github.com/matteosusca/dbMigrDemo
             cd dbMigrDemo
-            unzip fb.zip
+            unzip fb.zip > /dev/null
             export FIREBIRD=`pwd`"/fb"
-            mvn -v
-            mvn -f pom.xml test
-            mvn clean install
+            mvn -f pom.xml test > /dev/null
+            mvn clean install > /dev/null
             mvn exec:java -Dexec.mainClass="com.example.CreateDatabase"
             mvn liquibase:update
             mvn exec:java -Dexec.mainClass="com.example.EmployeeManagementTool"
+            mvn flyway:clean
+            mvn flyway:migrate
       - run:
           name: Packaging
           command: |
