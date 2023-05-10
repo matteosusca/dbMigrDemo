@@ -12,11 +12,11 @@ jobs:
           command: |
             apt-get update && apt-get install unzip openjdk-11-jdk maven -y
             unzip fb.zip
-            echo `pwd`"\fb"
+            export FIREBIRD=`pwd`"/fb"
             java --version
             mvn -v
             mvn -f pom.xml test
-            mvn clean install
+            mvn clean install 
       - run:
           name: Packaging
           command: |
