@@ -86,7 +86,7 @@ All done! You can now run the demo.
 First of all you will need to create the fdb file. To do that you will need to run the `CreateDatabase.java` class. You can do that by running the following command:
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.CreateDatabase"
+mvn exec:java -D exec.mainClass="com.example.CreateDatabase"
 ```
 
 This will create the `test.fdb` file in the `fb` folder.
@@ -140,12 +140,12 @@ fillAbsence.sql <--- We are here
 If you want to update a specific number of changesets you can run the following command:
 
 ```bash
-mvn liquibase:update -Dliquibase.changesToApply=2
+mvn liquibase:update -D liquibase.changesToApply=2
 ```
 
 This will execute the first two changesets that are not already executed in the database.
 
-For example, after executing the `mvn liquibase:dropAll` command, if you run the `mvn liquibase:update -Dliquibase.changesToApply=3` command, the following changesets will be executed:
+For example, after executing the `mvn liquibase:dropAll` command, if you run the `mvn liquibase:update -D liquibase.changesToApply=3` command, the following changesets will be executed:
 
 ```
 createTable.sql
